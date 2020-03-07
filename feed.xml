@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://piyush-14.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://piyush-14.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-03-07T05:41:47-06:00</updated><id>https://piyush-14.github.io/blog/feed.xml</id><title type="html">Personal Deep Learning Expericence.</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">First Callback</title><link href="https://piyush-14.github.io/blog/2020/03/07/first-callback.html" rel="alternate" type="text/html" title="First Callback" /><published>2020-03-07T00:00:00-06:00</published><updated>2020-03-07T00:00:00-06:00</updated><id>https://piyush-14.github.io/blog/2020/03/07/first-callback</id><content type="html" xml:base="https://piyush-14.github.io/blog/2020/03/07/first-callback.html">&lt;p&gt;Fastai is a great library with great resources implemented in an intuitive style. There are various kinds of callbacks which makes the training of the model easier as well as interesting. There is still a concept of Runner which is talked about in the Fastai Deep Learning Part2 which is kind of hard to understand. But not anymore. Today we will go through the Runner class and try to understand its concepts under the hood.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://piyush-14.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://piyush-14.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-03-07T06:01:32-06:00</updated><id>https://piyush-14.github.io/blog/feed.xml</id><title type="html">Personal Deep Learning Expericence.</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">First Callback</title><link href="https://piyush-14.github.io/blog/2020/03/07/first-callback.html" rel="alternate" type="text/html" title="First Callback" /><published>2020-03-07T00:00:00-06:00</published><updated>2020-03-07T00:00:00-06:00</updated><id>https://piyush-14.github.io/blog/2020/03/07/first-callback</id><content type="html" xml:base="https://piyush-14.github.io/blog/2020/03/07/first-callback.html">&lt;p&gt;Fastai is a great library with great resources implemented in an intuitive style. There are various kinds of callbacks which makes the training of the model easier as well as interesting. There is still a concept of Runner which is talked about in the Fastai Deep Learning Part2 which is kind of hard to understand. But not anymore. Today we will go through the Runner class and try to understand its concepts under the hood.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;What are Callbacks?&lt;/strong&gt;&lt;/p&gt;
 
@@ -1856,41 +1856,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://piyush-14.github.io/blog/images/chart-preview.png" /><media:content medium="image" url="https://piyush-14.github.io/blog/images/chart-preview.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">My First Post</title><link href="https://piyush-14.github.io/blog/2020/01/28/My-First-Post.html" rel="alternate" type="text/html" title="My First Post" /><published>2020-01-28T00:00:00-06:00</published><updated>2020-01-28T00:00:00-06:00</updated><id>https://piyush-14.github.io/blog/2020/01/28/My-First-Post</id><content type="html" xml:base="https://piyush-14.github.io/blog/2020/01/28/My-First-Post.html">&lt;p&gt;If you start youtube, then only for coffee time.&lt;/p&gt;
-
-&lt;p&gt;Half an hour for brush and coffee.&lt;/p&gt;
-
-&lt;p&gt;15 minutes get your thoughts straight.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Study for 2 hours.(Fastai/Pytorch Practice.)&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Breakfast break 15 mins.(eat something heavy that will last for 3 hours)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Study for 2 hours(Coffee if you need ,which you will.)[Blog/Kaggle]&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;15 minutes to look back for what you have.&lt;/p&gt;
-
-&lt;p&gt;Have some snacks or lunch depending on your mood.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Again study for 2 and a half hours. [HackerRank Practice]&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;(if need something as motivation watch something good)&lt;/p&gt;
-
-&lt;p&gt;Motivation: Do you like to be mediocre?&lt;/p&gt;
-
-&lt;p&gt;Now it’s been almost 6 hours.You are exhausted now.Eat something and wander away from screen.Talk to anybody, anything.(that should be about 30 minutes)&lt;/p&gt;
-
-&lt;p&gt;Now Drink a strong coffee with some dates.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Study for 3 hours straight. [Github/Book/Papers Implementation with coding practice]&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Take a nap.(max 1 hour)&lt;/p&gt;
-
-&lt;p&gt;You don’t care what is going on outside your screen. Don’t indulge yourself into anything.FOCUS.&lt;/p&gt;
-
-&lt;p&gt;If you have finished the daily course and still have some strength left check for the next course.If its too long then get a head start.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Last Chance.&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">If you start youtube, then only for coffee time.</summary></entry><entry><title type="html">Example Markdown Post</title><link href="https://piyush-14.github.io/blog/markdown/2020/01/14/test-markdown-post.html" rel="alternate" type="text/html" title="Example Markdown Post" /><published>2020-01-14T00:00:00-06:00</published><updated>2020-01-14T00:00:00-06:00</updated><id>https://piyush-14.github.io/blog/markdown/2020/01/14/test-markdown-post</id><content type="html" xml:base="https://piyush-14.github.io/blog/markdown/2020/01/14/test-markdown-post.html">&lt;h2 id=&quot;basic-setup&quot;&gt;Basic setup&lt;/h2&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://piyush-14.github.io/blog/images/chart-preview.png" /><media:content medium="image" url="https://piyush-14.github.io/blog/images/chart-preview.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Example Markdown Post</title><link href="https://piyush-14.github.io/blog/markdown/2020/01/14/test-markdown-post.html" rel="alternate" type="text/html" title="Example Markdown Post" /><published>2020-01-14T00:00:00-06:00</published><updated>2020-01-14T00:00:00-06:00</updated><id>https://piyush-14.github.io/blog/markdown/2020/01/14/test-markdown-post</id><content type="html" xml:base="https://piyush-14.github.io/blog/markdown/2020/01/14/test-markdown-post.html">&lt;h2 id=&quot;basic-setup&quot;&gt;Basic setup&lt;/h2&gt;
 
 &lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
 
