@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Callbacks | Personal Deep Learning Expericence.</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Callbacks" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Fastai is a great library with great resources implemented in an intuitive style. There are various kinds of callbacks which makes the training of the model easier as well as interesting. There is still a concept of Runner which is talked about in the Fastai Deep Learning Part2 which is kind of hard to understand. But not anymore. Today we will go through the Runner class and try to understand its concepts under the hood." />
+<meta property="og:description" content="Fastai is a great library with great resources implemented in an intuitive style. There are various kinds of callbacks which makes the training of the model easier as well as interesting. There is still a concept of Runner which is talked about in the Fastai Deep Learning Part2 which is kind of hard to understand. But not anymore. Today we will go through the Runner class and try to understand its concepts under the hood." />
+<link rel="canonical" href="https://piyush-14.github.io/blog/2020/03/06/callbacks.html" />
+<meta property="og:url" content="https://piyush-14.github.io/blog/2020/03/06/callbacks.html" />
+<meta property="og:site_name" content="Personal Deep Learning Expericence." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-06T00:00:00-06:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://piyush-14.github.io/blog/2020/03/06/callbacks.html"},"description":"Fastai is a great library with great resources implemented in an intuitive style. There are various kinds of callbacks which makes the training of the model easier as well as interesting. There is still a concept of Runner which is talked about in the Fastai Deep Learning Part2 which is kind of hard to understand. But not anymore. Today we will go through the Runner class and try to understand its concepts under the hood.","@type":"BlogPosting","url":"https://piyush-14.github.io/blog/2020/03/06/callbacks.html","headline":"Callbacks","dateModified":"2020-03-06T00:00:00-06:00","datePublished":"2020-03-06T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/blog/assets/main.css">
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://piyush-14.github.io/blog/feed.xml" title="Personal Deep Learning Expericence." />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+          ]}
+        );
+      });
+    </script>
+  
+
+  <script>
+  function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+  }
+  window.onload = wrap_img;
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      // add link icon to anchor tags
+      var elem = document.querySelectorAll(".anchor-link")
+      elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+      // remove paragraph tags in rendered toc (happens from notebooks)
+      var toctags = document.querySelectorAll(".toc-entry")
+      toctags.forEach(e => (e.firstElementChild.innerText = e.firstElementChild.innerText.replace('¶', '')))
+    });
+  </script>
+</head><body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Personal Deep Learning Expericence.</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Callbacks</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-06T00:00:00-06:00" itemprop="datePublished">
+        Mar 6, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Fastai is a great library with great resources implemented in an intuitive style. There are various kinds of callbacks which makes the training of the model easier as well as interesting. There is still a concept of Runner which is talked about in the Fastai Deep Learning Part2 which is kind of hard to understand. But not anymore. Today we will go through the Runner class and try to understand its concepts under the hood.</p>
+
+<p><strong>What are Callbacks?</strong></p>
+
+<p>Callbacks are a little mystery object which helps the training of the model. In simple language Callbacks are the special type of functions which are used to inject special behavior at different places in the training loop. There are various things which we might want to do while training our model,like:</p>
+
+<ul>
+  <li>
+    <blockquote>
+      <p>Print the loss and the accuracy metrics.</p>
+    </blockquote>
+  </li>
+  <li>
+    <blockquote>
+      <p>Record the Losses for each batch and plot them.</p>
+    </blockquote>
+  </li>
+  <li>
+    <blockquote>
+      <p>Find a good learning rate for the model.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>All these things can be implemented with the help of Callbacks, in short, Callbacks help to make the training loop infinitely customizable like Sylvain Gugger said.</p>
+
+<p>No matter how good a thing is, it can always be improved. And the improvement is the Runner class. But to fully understand the improved version, you have to be familiar with the basics of the CallbackHandler and its limitations. These are some great resources to understand the Callbacks. So I would recommend you to go through these blog posts before reading further.</p>
+
+<p><a href="https://pouannes.github.io/blog/callbacks-fastai/"><span class="underline">Understanding the Callbacks</span></a> <a href="https://medium.com/@edwardeasling/implementing-callbacks-in-fast-ai-1c23de25b6eb"><span class="underline">Implementing Callbacks in Fastai</span></a></p>
+
+<p>After going through the above articles you must have noticed that the Callbacks has to inherit from the base Callback which has different methods of its own as seen below. It’s also worth noting that the only reason we inherit from this class is to handle the exceptions which might rise</p>
+
+<p>when someone calls a method onto a callback which is not defined in its scope.</p>
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p><em>class</em> <span class="underline">Callback</span>():</p>
+<p><em>def</em> begin_fit(<em>self</em>, <em>learn</em>):</p>
+<p>self.learn = learn</p>
+<p>return True</p>
+<p><em>def</em> after_fit(<em>self</em>): return True</p>
+<p><em>def</em> begin_epoch(<em>self</em>, <em>epoch</em>):</p>
+<p>self.epoch=epoch</p>
+<p>return True</p>
+<p><em>def</em> begin_validate(<em>self</em>): return True</p>
+<p><em>def</em> after_epoch(<em>self</em>): return True</p>
+<p><em>def</em> begin_batch(<em>self</em>, <em>xb</em>, <em>yb</em>):</p>
+<p>self.xb,self.yb = xb,yb</p>
+<p>return True</p>
+<p><em>def</em> after_loss(<em>self</em>, <em>loss</em>):</p>
+<p>self.loss = loss</p>
+<p>return True</p>
+<p><em>def</em> after_backward(<em>self</em>): return True</p>
+<p><em>def</em> after_step(<em>self</em>): return True</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>Suppose you define a TestCallback which will stop the execution once the number of iterations is greater than 10. The Callback is defined as seen below.</p>
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p><em>class</em> <span class="underline">TestCallback</span>(<em><span class="underline">Callback</span></em>):</p>
+<p><em>def</em> begin_fit(<em>self</em>,<em>learn</em>):</p>
+<p>super().begin_fit(learn)</p>
+<p>self.n_iters = 0</p>
+<p>return True</p>
+<p><em>def</em> after_step(<em>self</em>):</p>
+<p>self.n_iters += 1</p>
+<p>print(self.n_iters)</p>
+<p>if self.n_iters&gt;=10: self.learn.stop = True</p>
+<p>return True</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>So if we call a method like “after_loss” on the TestCallback then it would look for the method in its own scope and if not found then will look for the super() class which is Callback and would perform that method. Thus, an error is averted.</p>
+
+<p>Hence this inheritance has to be improved in future.</p>
+
+<p>Another problem which needs to be addressed is the duplication of the code in the CallbackHandler() which can be avoided with a different class.</p>
+
+<p><strong>Now let’s have a look at the Runner class.</strong></p>
+
+<p>The Runner class can be seen below has the training loops inside it with only callbacks and the callback functions initialised. It can look a bit intimidating but don’t worry we will break down the class and get through it. The main magic is happening inside the __init__( ) as well as the __call__( ) methods.</p>
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p><em>class</em> <span class="underline">Runner</span>():</p>
+<p><em>def</em> __init__(<em>self</em>, <em>cbs</em>=None, <em>cb_funcs</em>=None):</p>
+<p>cbs = listify(cbs) # converts the arguments into type list.</p>
+<p>for cbf in listify(cb_funcs):</p>
+<p>cb = cbf()</p>
+<p>setattr(self, cb.name, cb)</p>
+<p>cbs.append(cb)</p>
+<p>self.stop,self.cbs = False,[TrainEvalCallback()]+cbs</p>
+<p>@property</p>
+<p><em>def</em> opt(<em>self</em>): return self.learn.opt</p>
+<p>@property</p>
+<p><em>def</em> model(<em>self</em>): return self.learn.model</p>
+<p>@property</p>
+<p><em>def</em> loss_func(<em>self</em>): return self.learn.loss_func</p>
+<p>@property</p>
+<p><em>def</em> data(<em>self</em>): return self.learn.data</p>
+<p><em>def</em> one_batch(<em>self</em>, <em>xb</em>, <em>yb</em>):</p>
+<p>self.xb,self.yb = xb,yb</p>
+<p>if self('begin_batch'): return</p>
+<p>self.pred = self.model(self.xb)</p>
+<p>if self('after_pred'): return</p>
+<p>self.loss = self.loss_func(self.pred, self.yb)</p>
+<p>if self('after_loss') or not self.in_train: return</p>
+<p>self.loss.backward()</p>
+<p>if self('after_backward'): return</p>
+<p>self.opt.step()</p>
+<p>if self('after_step'): return</p>
+<p>self.opt.zero_grad()</p>
+<p><em>def</em> all_batches(<em>self</em>, <em>dl</em>):</p>
+<p>self.iters = len(dl)</p>
+<p>for xb,yb in dl:</p>
+<p>if self.stop: break</p>
+<p>self.one_batch(xb, yb)</p>
+<p>self('after_batch')</p>
+<p>self.stop=False</p>
+<p><em>def</em> fit(<em>self</em>, <em>epochs</em>, <em>learn</em>):</p>
+<p>self.epochs,self.learn = epochs,learn</p>
+<p>try:</p>
+<p>for cb in self.cbs: cb.set_runner(self)</p>
+<p>if self('begin_fit'): return</p>
+<p>for epoch in range(epochs):</p>
+<p>self.epoch = epoch</p>
+<p>if not self('begin_epoch'): self.all_batches(self.data.train_dl)</p>
+<p>with torch.no_grad():</p>
+<p>if not self('begin_validate'): self.all_batches(self.data.valid_dl)</p>
+<p>if self('after_epoch'): break</p>
+<p>finally:</p>
+<p>self('after_fit')</p>
+<p>self.learn = None</p>
+<p><em>def</em> __call__(<em>self</em>, <em>cb_name</em>):</p>
+<p>for cb in sorted(self.cbs, key=<em>lambda</em> x: x._order):</p>
+<p>f = getattr(cb, cb_name, None)</p>
+<p>if f and f(): return True</p>
+<p>return False</p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Upgraded Callback Class:</strong></p>
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p><em>class</em> <span class="underline">Callback</span>():</p>
+<p>_order=0</p>
+<p><em>def</em> set_runner(<em>self</em>, <em>run</em>): self.run=run</p>
+<p><em>def</em> __getattr__(<em>self</em>, <em>k</em>): return getattr(self.run, k)</p>
+<p>@property</p>
+<p><em>def</em> name(<em>self</em>):</p>
+<p>name = re.sub(r'Callback$', '', self.__class__.__name__)</p>
+<p>return camel2snake(name or 'callback')</p></td>
+</tr>
+</tbody>
+</table>
+
+  </div><a class="u-url" href="/blog/2020/03/06/callbacks.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Personal Deep Learning Expericence.</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Personal Deep Learning Expericence.</li><li><a class="u-email" href="mailto:paliwal.piyush14@gmail.com">paliwal.piyush14@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list">
+  <li><a href="https://github.com/piyush-14"><svg class="social svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">piyush-14</span></a></li><li><a href="https://www.twitter.com/init_in_1996"><svg class="social svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">init_in_1996</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
